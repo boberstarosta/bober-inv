@@ -1,5 +1,6 @@
 from flask import flash, redirect, render_template, url_for, abort
 from flask_login import current_user, login_required
+from functools import wraps
 
 from app import db
 from app.admin import bp
@@ -8,12 +9,19 @@ from app.admin.forms import CreateRateForm, DeleteRateForm
 from app.models import User, Rate
 
 
+def admin_required(f):
+    @wraps(f)
+    def wrapper():
+        if not current_user.is_admin:
+            abort(403)
+        return f()
+    return wrapper
+
+
 @bp.route('/')
 @login_required
+@admin_required
 def index():
-    if not current_user.is_admin:
-        abort(403)
-
     users = User.query.order_by(User.username).all()
     rates = Rate.query.all()
     return render_template('admin/index.html', title='Administracja',
@@ -22,10 +30,8 @@ def index():
 
 @bp.route('/create_user', methods=['GET', 'POST'])
 @login_required
+@admin_required
 def create_user():
-    if not current_user.is_admin:
-        abort(403)
-
     form = CreateUserForm()
     if form.validate_on_submit():
         user = User(username=form.username.data, email=form.email.data,
@@ -44,10 +50,8 @@ def create_user():
 
 @bp.route('/delete_user/<id>', methods=['GET', 'POST'])
 @login_required
+@admin_required
 def delete_user(id):
-    if not current_user.is_admin:
-        abort(403)
-
     user = User.query.get_or_404(id)
     form = DeleteUserForm()
     if form.validate_on_submit():
@@ -65,10 +69,8 @@ def delete_user(id):
 
 @bp.route('/create_rate', methods=['GET', 'POST'])
 @login_required
+@admin_required
 def create_rate():
-    if not current_user.is_admin:
-        abort(403)
-
     form = CreateRateForm()
     if form.validate_on_submit():
         rate = Rate(name=form.name.data, value=form.value.data)
@@ -84,10 +86,8 @@ def create_rate():
 
 @bp.route('/delete_rate/<id>', methods=['GET', 'POST'])
 @login_required
+@admin_required
 def delete_rate(id):
-    if not current_user.is_admin:
-        abort(403)
-
     rate = Rate.query.get_or_404(id)
     form = DeleteRateForm()
     if form.validate_on_submit():
