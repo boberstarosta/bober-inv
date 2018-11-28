@@ -1,8 +1,9 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SubmitField
-from wtforms.validators import ValidationError, DataRequired
+from wtforms import IntegerField
+from wtforms.validators import ValidationError, DataRequired, Length
 from wtforms.validators import Email, EqualTo
-from app.models import User
+from app.models import User, Rate
 
 
 class CreateUserForm(FlaskForm):
@@ -28,5 +29,17 @@ class CreateUserForm(FlaskForm):
 
 class DeleteUserForm(FlaskForm):
     submit = SubmitField('Usuń użytkownika')
+    cancel = SubmitField('Anuluj')
+
+
+class CreateRateForm(FlaskForm):
+    name = StringField('Nazwa',
+                       validators=[DataRequired(), Length(min=1, max=140)])
+    value = IntegerField('Wartość [%]')
+    submit = SubmitField('Zatwierdź')
+
+
+class DeleteRateForm(FlaskForm):
+    submit = SubmitField('Usuń stawkę VAT')
     cancel = SubmitField('Anuluj')
 

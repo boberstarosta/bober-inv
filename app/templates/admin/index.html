@@ -5,9 +5,12 @@
 {% block app_content %}
 
   <h1>Administracja</h1>
+  
+  <hr>
+
+  <h2>Użytkownicy</h2>
 
   <table class="table table-hover">
-    <caption>Użytkownicy</caption>
     <tr>
       <th>Nazwa</th>
       <th>Email</th>
@@ -20,13 +23,36 @@
         <td>{{ user.email }}</td>
         <td>{{ user.is_admin }}</td>
         <td>
-          <a href="#">edytuj</a>&nbsp;
-          <a href="{{ url_for('admin.delete_user', username=user.username) }}">usuń</a>
+          <a href="{{ url_for('admin.delete_user', id=user.id) }}">usuń</a>
+        </td>
+      </tr>
+    {% endfor %}
+    <tr>
+      <td><a href="{{ url_for('admin.create_user') }}">Dodaj użytkownika</a></td>
+    </tr>
+  </table>
+
+  <hr>
+
+  <h2>Stawki VAT</h2>
+
+  <table class="table table-hover">
+    <tr>
+      <th>Nazwa</th>
+      <th>Wartość [%]</th>
+      <th></th>
+    </tr>
+    {% for rate in rates %}
+      <tr>
+        <td>{{ rate.name }}</td>
+        <td>{{ rate.value }}</td>
+        <td>
+          <a href="{{ url_for('admin.delete_rate', id=rate.id) }}">usuń</a>
         </td>
       </tr>
     {% endfor %}
   </table>
-  <p><a href="{{ url_for('admin.create_user') }}">Dodaj użytkownika</a></p>
+  <p><a href="{{ url_for('admin.create_rate') }}">Dodaj stawkę VAT</a></p>
 
 {% endblock %}
 
