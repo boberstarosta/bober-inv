@@ -32,6 +32,9 @@
           {% if current_user.is_anonymous %}
             <li><a href="{{ url_for('auth.login') }}">Zaloguj</a></li>
           {% else %}
+            {% if current_user.is_admin %}
+              <li><a href="{{ url_for('admin.index') }}">Administracja</a></li>
+            {% endif %}
             <li><a href="{{ url_for('auth.logout') }}">Wyloguj</a></li>
           {% endif %}
         </ul>

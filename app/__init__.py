@@ -13,7 +13,7 @@ db = SQLAlchemy()
 migrate = Migrate()
 login = LoginManager()
 login.login_view = 'auth.login'
-login.login_message = 'Please log in to access this page.'
+login.login_message = 'Zaloguj się żeby zobaczyć tą stronę.'
 bootstrap = Bootstrap()
 
 
@@ -32,6 +32,8 @@ def create_app(config_class=Config):
     app.register_blueprint(errors_bp)
     from app.auth import bp as auth_bp
     app.register_blueprint(auth_bp, url_prefix='/auth')
+    from app.admin import bp as admin_bp
+    app.register_blueprint(admin_bp, url_prefix='/admin')
 
     if not app.debug and not app.testing:
         if not os.path.exists('logs'):
