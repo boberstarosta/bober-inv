@@ -1,0 +1,32 @@
+
+{% extends "base.html" %}
+
+
+{% block app_content %}
+
+  <h1>Administracja</h1>
+
+  <table class="table table-hover">
+    <caption>Użytkownicy</caption>
+    <tr>
+      <th>Nazwa</th>
+      <th>Email</th>
+      <th>Administrator</th>
+      <th></th>
+    </tr>
+    {% for user in users %}
+      <tr>
+        <td>{{ user.username }}</td>
+        <td>{{ user.email }}</td>
+        <td>{{ user.is_admin }}</td>
+        <td>
+          <a href="#">edytuj</a>&nbsp;
+          <a href="{{ url_for('admin.delete_user', username=user.username) }}">usuń</a>
+        </td>
+      </tr>
+    {% endfor %}
+  </table>
+  <p><a href="{{ url_for('admin.create_user') }}">Dodaj użytkownika</a></p>
+
+{% endblock %}
+
