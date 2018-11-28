@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+{% block app_content %}
+
+  <h1 class="page-header">{{ header }} <small>numer <span>2/11/2018</span></small></h1>
+
+  <div class="row">
+    <div class="col-lg-7">
+      <form>
+
+        <div class="checkbox">
+          <label for="dateInput">
+            <input type="checkbox" value=""> Procedura marży
+          </label>
+        </div>
+
+        <label for="dateInput">Data wystawienia</label>
+        <div class="input-group">
+          <input type="text" class="form-control" id="dateInput", placeholder="2018-11-29">
+          <span class="input-group-btn">
+            <button type="button" class="btn btn-default">Zmień</button>
+          </span>
+        </div>
+
+        <label for="buyerDataTextArea">Kupujący</label>
+        <div class="form-group">
+          <textarea class="form-control" rows="6" id="buyerDataTextArea" readonly></textarea>
+          <span class="input-group-addon btn btn-default">Wybierz</span>
+        </div>
+
+        <button class="btn btn-primary btn-block">Zatwierdź</button>
+
+      </form>
+    </div>
+  </div>
+
+{% endblock %}
+
+
+{% block scripts %}
+  {{ super() }}
+  <script>
+  </script>
+{% endblock %}

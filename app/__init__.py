@@ -6,6 +6,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_login import LoginManager
 from flask_bootstrap import Bootstrap
+from flask_wtf.csrf import CSRFProtect
 from config import Config
 
 
@@ -15,6 +16,7 @@ login = LoginManager()
 login.login_view = 'auth.login'
 login.login_message = 'Zaloguj się żeby zobaczyć tą stronę.'
 bootstrap = Bootstrap()
+csrf = CSRFProtect()
 
 
 def create_app(config_class=Config):
@@ -25,6 +27,7 @@ def create_app(config_class=Config):
     migrate.init_app(app, db)
     login.init_app(app)
     bootstrap.init_app(app)
+    csrf.init_app(app)
 
     from app.main import bp as main_bp
     app.register_blueprint(main_bp)
@@ -52,4 +55,3 @@ def create_app(config_class=Config):
 
 
 from app import models
-
