@@ -11,10 +11,10 @@ from app.models import User, Rate
 
 def admin_required(f):
     @wraps(f)
-    def wrapper():
+    def wrapper(*args, **kwargs):
         if not current_user.is_admin:
             abort(403)
-        return f()
+        return f(*args, **kwargs)
     return wrapper
 
 
@@ -41,7 +41,7 @@ def create_user():
         db.session.commit()
         flash('Dodano użytkownika {}'.format(user.username))
         return redirect(url_for('admin.index'))
-    
+
     return render_template('admin/form.html',
                            title='Dodawanie użytkownika',
                            header='Nowy użytkownik',
@@ -60,7 +60,7 @@ def delete_user(id):
             db.session.commit()
             flash('Usunięto użytkownika {}'.format(user.username))
         return redirect(url_for('admin.index'))
-    
+
     header='Potwierdź usunięcie użytkownika {}'.format(user.username)
     return render_template('admin/form.html',
                            title='Usuwanie użytkownika',
@@ -101,4 +101,3 @@ def delete_rate(id):
     return render_template('admin/form.html',
                            title='Usuwanie stawki VAT',
                            header=header, form=form)
-
